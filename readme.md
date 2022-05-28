@@ -5,6 +5,7 @@
 2. 关于vim如何使用，可以自行百度，简单说，用`i`或者`insert`键进入或退出编辑模式，当不处于编辑模式时，按`shift`+`;`可以输入命令，`w`为保存，`q`为退出，`wq`为保存并退出，`q!`为强制退出。
 
 ## Ubuntu环境配置
+
 ### 安装WSL-Ubuntu
 
 1. 设置->应用->可选功能->更多Windows功能，勾选“Hyper-V”、“适用于Linux的Windows子系统”、“虚拟机平台”，如果没有的选项就不用勾选。
@@ -70,7 +71,7 @@
    > net start LxssManager
    ```
 
-### 安装图形化软件
+### 安装图形化软件（可选）
 
 1. 使用图形化软件可以更加方便的管理和查看Ubuntu系统下的文件，例如图片、文档等。
 2. 在Ubuntu终端输入
@@ -82,7 +83,7 @@
 
 ### Anaconda3
 
-1. 下载Anaconda3。方案一：在Windows中下载https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh；方案二：在Ubuntu中终端中输入
+1. 下载Anaconda3。方案一：在Windows中下载安装包，https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh；方案二：在Ubuntu中终端中输入
    ```
    $ wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
    ```
@@ -91,3 +92,43 @@
    $ bash Anaconda3-2022.05-Linux-x86_64.sh
    ```
 3. 看到终端最后一行提示有`--MORE--`，按回车，看到提示输入`yes`或`no`时，全部输入`yes`。
+
+### GPU计算库（可选）
+1. 如果电脑里有NVIDIA显卡，可以安装`cupy`和`pytorch`进行GPU运算。
+2. 根据显卡型号安装最新驱动程序https://www.nvidia.cn/Download/index.aspx?lang=cn。
+3. 安装`pytorch`，在Ubuntu终端中输入
+   ```
+   $ conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+   ```
+4. 安装`cupy`，在Ubuntu终端中输入
+   ```
+   $ pip install cupy-cuda113
+   ```
+5. `cupy`也可以安装其他的版本，在Ubuntu终端中输入
+   ```
+   $ pip install cupy-cuda11X
+   ```
+   但是必须安装对应的cudatoolkit。方案一：利用conda安装cudatoolkit，在Ubuntu终端中输入
+   ```
+   $ conda install cudatoolkit=11.X
+   ```
+   利用conda安装时，只能安装一种版本的cudatoolkit。方案二：利用apt安装cudatoolkit，在Ubuntu终端中输入
+   ```
+   $ wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
+   $ sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
+   $ sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/3bf863cc.pub
+   $ sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/ /"
+   $ sudo apt-get update
+   $ sudo apt-get -y install cuda=11.X
+   $ vim ~/.bashrc
+   ```
+   在文末添加内容
+   ```
+   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+   export PATH=$PATH:/usr/local/cuda/bin
+   export CUDA_HOME=$CUDA_HOME:/usr/local/cuda
+   ```
+   激活环境变量
+   ```
+   $ source ~/.bashrc
+   ```
