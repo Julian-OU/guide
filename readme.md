@@ -18,10 +18,25 @@
 
 ## 配置WSL-Ubuntu（可选步骤）
 
+### 更换软件源
+
+1. 如果没有VPN的话，建议更换软件源，以加快软件安装以及更新速度。
+2. 建议使用清华镜像源https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/。
+3. 查看系统版本，在Ubuntu终端中输入
+   ```
+   $ wslfetch
+   ```
+   可以看到`Release: `项为即为版本号，例如`22.04 LTS`、`20.04 LTS`等。
+4. 在Ubuntu终端中输入
+   ```
+   $ sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+   $ sudo vim /etc/apt/sources.list
+   ```
+   根据系统版本号替换为对应的内容。
+
 ### WSL-Hello-sudo
 
 1. 如果计算机安装了指纹识别、人脸识别或者虹膜识别等Windows Hello生物识别设别，可以安装WSL-Hello-sudo，避免反复输入密码的繁琐。
-
 2. 在Ubuntu终端中输入
    ```
    $ wget http://github.com/nullpo-head/WSL-Hello-sudo/releases/latest/download/release.tar.gz
@@ -45,7 +60,7 @@
    $ sudo apt update
    $ sudo apt install language-pack-zh-hans language-pack-gnome-zh-hans language-pack-kde-zh-hans manpages-zh
    ```
-3. 配置中文字体，在Ubuntu终端中输入
+3. 导入Windows字体，在Ubuntu终端中输入
    ```
    $ sudo ln -s /mnt/c/Windows/Fonts /usr/share/fonts/font
    $ fc-cache -fv
